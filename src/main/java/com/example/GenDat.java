@@ -70,7 +70,7 @@ public class GenDat {
 	 * @return RecordBuilder用のヘッダ情報
 	 */
 	List<String> createHeader(int startPos, int endPos) {
-		List<String> result = new ArrayList<String>(40);
+		List<String> result = new ArrayList<>(40);
 
 		result.add(getBaseHeader().get(0)); // GPKEY
 		for (int pos = 2; pos <= 40; pos++) {
