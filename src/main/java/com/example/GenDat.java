@@ -22,7 +22,7 @@ public class GenDat {
 	private List<String> baseHeader;
 
 	public GenDat() {
-		setBaseHeader(Columns.DEFAULT.getColumns());
+		setBaseHeader(Columns.DEFAULT.getColumnList());
 		setR1header(createHeader(1, 13));
 		setR2header(createHeader(14, 26));
 		setR3header(createHeader(27, 39));
@@ -38,7 +38,7 @@ public class GenDat {
 	 * @throws IOException
 	 */
 	public void create(int counts, String filename) throws IOException {
-		Set<RecordBuilder> dat = new HashSet<RecordBuilder>();
+		Set<RecordBuilder> dat = new HashSet<>();
 		for (int i = 1; i <= counts; i++) {
 			dat.add(new RecordBuilder().setGpkey(i).setRecordHeader(getR1header()));
 			dat.add(new RecordBuilder().setGpkey(i).setRecordHeader(getR2header()));
@@ -47,13 +47,15 @@ public class GenDat {
 		FileWriter writer = new FileWriter(new File(filename));
 		BufferedWriter bw = new BufferedWriter(writer);
 		Iterator<RecordBuilder> ite = dat.iterator();
-
-		// In no particular order
-		while (ite.hasNext()) {
-			bw.write(ite.next().build());
-			bw.newLine();
+		try {
+			// In no particular order
+			while (ite.hasNext()) {
+				bw.write(ite.next().build());
+				bw.newLine();
+			}
+		} finally {
+			bw.close();
 		}
-		bw.close();
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class GenDat {
 	 * @return RecordBuilder用のヘッダ情報
 	 */
 	List<String> createHeader(int startPos, int endPos) {
-		List<String> result = new ArrayList<String>(40);
+		List<String> result = new ArrayList<>(40);
 
 		result.add(getBaseHeader().get(0)); // GPKEY
 		for (int pos = 2; pos <= 40; pos++) {

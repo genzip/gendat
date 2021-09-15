@@ -19,7 +19,7 @@ public class RecordBuilder {
 	}
 
 	public String build() {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 
 		Iterator<String> ite = getRecordHeader().iterator();
 		String sep = getSeparate();
