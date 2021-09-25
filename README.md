@@ -4,7 +4,7 @@
 
 ```
 mvn clean
-mvn package assembly:single
+mvn package
 ```
 
 実行例
