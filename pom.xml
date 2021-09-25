@@ -105,17 +105,40 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        <!-- <plugin>
-          <artifactId>maven-filtering</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-archiver</artifactId>
-          <version>3.5.1</version>
-        </plugin> -->
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>3.3.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>copy-resources</id>
+              <!-- here the phase you need -->
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${basedir}/target/</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${basedir}/src/main/java</directory>
+                    <includes>
+                      <include>log4j2.xml</include>
+                    </includes>
+                    <filtering>true</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
             <descriptorRefs>
               <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -124,10 +147,10 @@
               <manifest>
                 <mainClass>com.example.App</mainClass>
               </manifest>
-            </archive>
             <manifestEntries>
               <Class-Path>./settings/</Class-Path>
             </manifestEntries>
+            </archive>
           </configuration>
           <executions>
             <execution>
@@ -139,27 +162,19 @@
             </execution>
           </executions>
         </plugin>
-        <!-- <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <configuration>
-                <target>
-                  <mkdir dir="${project.build.directory}/settings" />
-                  <copy todir="${project.build.directory}/settings">
-                    <fileset dir="${project.basedir}/src/main/resources" />
-                  </copy>
-                </target>
-              </configuration>
-              <goals>
-                <goal>run</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin> -->
-      </plugins>
-    </pluginManagement>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>com.example.App</mainClass>
+              </manifest>
+            </archive>
+            <manifestEntries>
+              <Class-Path>./settings/</Class-Path>
+            </manifestEntries>
+          </configuration>
+        </plugin>
+    </plugins>
   </build>
 </project>
